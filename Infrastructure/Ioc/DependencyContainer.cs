@@ -1,4 +1,5 @@
 using Domain.Models.Base;
+using FluentValidation.AspNetCore;
 using Infrastructure.Context;
 using Infrastructure.Repositories.Base;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +13,7 @@ public static class DependencyContainer
     {
         // IoC - Inversion Of Control
         // Application
-       
+        services.AddFluentValidation();
 
         // Domain.Interfaces > Infrastructure.Data.Repositories
         // User for entity 
