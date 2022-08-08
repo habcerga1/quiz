@@ -1,6 +1,8 @@
+using AutoMapper;
 using Domain.Models.Base;
 using FluentValidation.AspNetCore;
 using Infrastructure.Context;
+using Infrastructure.Mappers;
 using Infrastructure.Repositories.Base;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,7 @@ public static class DependencyContainer
         // IoC - Inversion Of Control
         // Application
         services.AddFluentValidation();
+        services.AddSingleton(new Mapper(new MapperConfiguration(_ => _.AddProfile(new MappingProfiler()))));
 
         // Domain.Interfaces > Infrastructure.Data.Repositories
         // User for entity 
