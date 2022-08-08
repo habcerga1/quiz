@@ -12,5 +12,9 @@ public static class DependencyContainer
 
         // Domain.Interfaces > Infrastructure.Data.Repositories
         
+        
+        // User for entity 
+        /*services.AddIdentity<User, IdentityRole>()
+            .AddEntityFrameworkStores<BaseDbContext>();*/
     }
 }
