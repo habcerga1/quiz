@@ -5,14 +5,12 @@ using Domain.Models.Base;
 namespace Infrastructure.Mappers;
 
 
-public class MappingProfiler : Profile
+public class MappingProfiler1 : Profile
 {
-    public MappingProfiler()
+    public MappingProfiler1()
     {
         CreateMap<RegistrationDto, User>()
-            .ConstructUsing(parent => new User())
-            .ForMember(target => target.FullName,
-                action => action.MapFrom(source => $"{source.FirstName} {source.LastName}"))
-            .ForMember(target => target.Email, action => action.MapFrom(source => source.Email));
+            .ForMember(target => target.Email, act => act.MapFrom(s => s.Email))
+            .ForMember(target => target.UserName, act => act.MapFrom(s => s.Email));
     }
 }
