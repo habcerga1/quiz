@@ -1,3 +1,4 @@
+using Domain.Common;
 using Domain.Models.Base;
 using Infrastructure.Context;
 using Infrastructure.Repositories.Base;
@@ -14,10 +15,14 @@ public class UserRepository : BaseMsSqlRepository<User>,IUserRepository
         _userManager = userManager;
     }
 
-    public async Task<bool> AddUserAsync(User user, string password,CancellationToken cancellationToken)
+    public async Task<ServiceResult> AddUserAsync(User user, string password,CancellationToken cancellationToken)
     {
-        var userCreated = await _userManager.CreateAsync(user, password);
-        var userFromDb = await _userManager.FindByEmailAsync(user.Email);
-        return userFromDb != null ? true : false;
+        var item = await _userManager.CreateAsync(user, password);
+        if (item.Succeeded)
+        {
+            var result = await _userManager.FindByEmailAsync(user.Email);
+            return ServiceResult.Success(Result.CustomMessage($"[Registration][OK] User: {user.Email} successfully registered e-mail user@domain.com {DateTime.Now}"));
+        }
+        return ServiceResult.Failed(Result.CustomMessage($"[Registration][Bad] {item.Errors.First().Description} {DateTime.Now}"));
     }
 }

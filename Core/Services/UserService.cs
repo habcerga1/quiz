@@ -1,5 +1,6 @@
 using AutoMapper;
 using Core.Interfaces;
+using Domain.Common;
 using Domain.Dto;
 using Domain.Models.Base;
 using Infrastructure.Repositories;
@@ -19,9 +20,19 @@ public class UserService : IUserService
         logger = _logger;
     }
 
-    public async Task<bool> AddUserAsync(RegistrationDto user, CancellationToken cancellationToken)
+    public async Task<ServiceResult> AddUserAsync(RegistrationDto user, CancellationToken cancellationToken)
     {
-        var employeeEntity = user.Adapt<User>();
-        return true;
+        try
+        {
+            var item = user.Adapt<User>();
+            var result = await db.AddUserAsync(item, user.Password, cancellationToken);
+            logger.LogInformation(result.Message.Text);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            logger.LogDebug(ex.Message);
+            throw ex;
+        }
     }
 }

@@ -25,11 +25,9 @@ public class RegistrationController : ControllerBase
     
     [HttpPost]
     [SwaggerResponse(HttpStatusCode.OK, typeof(DateTime), Description = "Valid request")]
-    [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Badrequest Found")]
-    public async Task<IActionResult> Post(RegistrationDto user1,CancellationToken cancellationToken)
+    [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
+    public async Task<IActionResult> Post(RegistrationDto user,CancellationToken cancellationToken)
     {
-        
-        service.AddUserAsync(user1,cancellationToken);
-        return await Task.Run(()=> Ok(DateTime.Now));
+        return Ok(await service.AddUserAsync(user,cancellationToken));
     }
 }
