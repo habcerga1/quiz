@@ -1,6 +1,7 @@
 using System.Net;
 using Core.Interfaces;
 using Domain.Dto;
+using Domain.Token;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
@@ -24,5 +25,14 @@ public class LoginController : ControllerBase
     public async Task<IActionResult> Post(LoginDto user,CancellationToken cancellationToken)
     {
         return Ok(await service.LoginAsync(user,cancellationToken));
+    }
+    
+    [HttpPost]
+    [Route("refresh")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(string), Description = "Valid request")]
+    [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
+    public async Task<IActionResult> Refresh(Token token,CancellationToken cancellationToken)
+    {
+        return Ok(await service.RefreshTokenAsync(token, cancellationToken));
     }
 }

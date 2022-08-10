@@ -42,4 +42,9 @@ public class UserRepository : BaseMsSqlRepository<User>,IUserRepository
     {
         return await _userManager.FindByEmailAsync(user.Email);
     }
+    
+    public async Task<User> GetUserAsync(string email, CancellationToken cancellationToken)
+    {
+        return await _userManager.FindByEmailAsync(email);
+    }
 }
