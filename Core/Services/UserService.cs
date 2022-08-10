@@ -54,7 +54,7 @@ public class UserService : IUserService
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            logger.LogInformation(e.Message);
             throw;
         }
         return "Bad email or password";
