@@ -13,11 +13,13 @@ public class UserService : IUserService
 {
     private readonly IUserRepository db;
     private readonly ILogger<UserService> logger;
+    private readonly ITokenService tokenService;
     
-    public UserService(IUserRepository _db,ILogger<UserService> _logger)
+    public UserService(IUserRepository _db,ILogger<UserService> _logger,ITokenService _tokenService)
     {
         db = _db;
         logger = _logger;
+        tokenService = _tokenService;
     }
 
     public async Task<ServiceResult> AddUserAsync(RegistrationDto user, CancellationToken cancellationToken)
@@ -34,5 +36,27 @@ public class UserService : IUserService
             logger.LogDebug(ex.Message);
             throw ex;
         }
+    }
+
+    public async Task<string> LoginAsync(LoginDto user, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await db.CheckUserPassword(user, user.Password, cancellationToken);
+            logger.LogInformation(result.Message.Text);
+                
+            if (result.Succeeded)
+            {
+                var token = tokenService.CreateJwtSecurityToken(result.Data.User);
+                logger.LogInformation($"[Login] success login for user: {user.Email} {DateTime.Now}");
+                return token;
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        return "Bad email or password";
     }
 }

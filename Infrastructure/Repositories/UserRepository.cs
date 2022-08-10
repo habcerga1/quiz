@@ -1,4 +1,5 @@
 using Domain.Common;
+using Domain.Dto;
 using Domain.Models.Base;
 using Infrastructure.Context;
 using Infrastructure.Repositories.Base;
@@ -21,8 +22,24 @@ public class UserRepository : BaseMsSqlRepository<User>,IUserRepository
         if (item.Succeeded)
         {
             var result = await _userManager.FindByEmailAsync(user.Email);
-            return ServiceResult.Success(Result.CustomMessage($"[Registration][OK] User: {user.Email} successfully registered e-mail user@domain.com {DateTime.Now}"));
+            return ServiceResult.Success(Result.CustomMessage($"[Registration][Ok] User: {user.Email} successfully registered Guid: {user.Guid} Time: {DateTime.Now}"));
         }
-        return ServiceResult.Failed(Result.CustomMessage($"[Registration][Bad] {item.Errors.First().Description} {DateTime.Now}"));
+        return ServiceResult.Failed(Result.CustomMessage($"[Registration][Bad] {item.Errors.First().Description} Time: {DateTime.Now}"));
+    }
+
+    public async Task<ServiceResult<LoginResponse>> CheckUserPassword(LoginDto model, string password, CancellationToken cancellationToken)
+    {
+        var user = await _userManager.FindByEmailAsync(model.Email);
+        if (user == null) ServiceResult.Failed(Result.UserNotFound);
+        
+        var item =  await _userManager.CheckPasswordAsync(user,password);
+        return (ServiceResult<LoginResponse>)(item == false
+            ? ServiceResult.Failed<LoginResponse>(Result.IncorrectPassword)
+            : ServiceResult.Success<LoginResponse>(new LoginResponse(user),Result.SuccessAuthorization));
+    }
+    
+    public async Task<User> GetUserAsync(LoginDto user, CancellationToken cancellationToken)
+    {
+        return await _userManager.FindByEmailAsync(user.Email);
     }
 }

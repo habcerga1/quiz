@@ -14,8 +14,6 @@ public class ServiceResult
         Message = message;
     }
 
-    public ServiceResult() { }
-
     #region Helper Methods
 
     public static ServiceResult Failed(Result message)
@@ -27,6 +25,37 @@ public class ServiceResult
     {
         return new ServiceResult(message,true);
     }
-
+    
+    public static ServiceResult Failed<T>(Result message)
+    {
+        return new ServiceResult<T>(message,false);
+    }
+    
+    public static ServiceResult Failed<T>(T data,Result message)
+    {
+        return new ServiceResult<T>(data,message,false);
+    }
+    
+    public static ServiceResult Success<T>(T data,Result message)
+    {
+        return new ServiceResult<T>(data,message,true);
+    }
+    
     #endregion
+}
+
+public class ServiceResult<T> : ServiceResult
+{
+    public T Data { get; set; }
+    
+    public ServiceResult(Result message,bool succeeded) : base(message,succeeded)
+    {
+        
+    }
+
+    public ServiceResult(T data,Result message,bool succeeded) : base(message,succeeded)
+    {
+        Data = data;
+    }
+    
 }
