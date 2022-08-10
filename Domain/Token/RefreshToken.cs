@@ -16,6 +16,7 @@ public class RefreshToken : IEntity
     {
         Refresh_Token = refreshToken;
         Email = email;
+        Guid = Guid.NewGuid();
     }
 
     public RefreshToken()

@@ -78,7 +78,10 @@ public class Result
         public static Result ServiceProvider => new Result("Service Provider failed to return as expected.", 600);
 
         public static Result DateTimeFormatError => new Result("Date format is not true. Date format must be like yyyy-MM-dd (2019-07-19)", 500);
-
+        
+        public static Result TokenClaimsPrincipal => new Result($"Token claims successfully getted {DateTime.Now}", 101);
+        public static Result TokenGenerated => new Result($"Token successfully generated {DateTime.Now}", 100);
+        
         #region Override Equals Operator
 
         /// <summary>

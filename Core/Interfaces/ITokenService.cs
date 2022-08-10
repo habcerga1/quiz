@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Domain.Common;
 using Domain.Models.Base;
 using Domain.Token;
 
@@ -6,9 +7,8 @@ namespace Core.Interfaces;
 
 public interface ITokenService
 {
-    string CreateJwtSecurityToken(User user);
-    Token CreateJwtSecurityTokenInstance(User user);
-    ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
+    ServiceResult<Token> CreateJwtSecurityTokenInstance(User user);
+    ServiceResult<ClaimsPrincipal> GetPrincipalFromExpiredToken(string token);
     public string GenerateRefreshToken();
-    public Token GenerateRefreshToken(User username);
+    ServiceResult<Token> GenerateRefreshToken(User username);
 }

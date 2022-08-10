@@ -29,18 +29,12 @@ public class ServerController : ControllerBase
     /// Simple request: GET http://localhost:5038/api/v1/server
     /// </remarks>
     /// <returns>Return date time</returns>
+    
     [HttpGet()]
     [SwaggerResponse(HttpStatusCode.OK, typeof(DateTime), Description = "Valid request")]
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Badrequest Found")]
     public async Task<IActionResult> Get()
     {
-        User user = new User()
-        {
-            UserName = "asdassd",
-            Email = "asdasd@gmail.com",
-            FullName = "asdasdasdasd"
-        };
-        await _userDb.AddUserAsync(user, "a4byn!!fdBADiad", new CancellationToken());
         return await Task.Run(()=> Ok(DateTime.Now));
     }
 }

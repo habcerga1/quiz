@@ -29,6 +29,6 @@ public class TokenRepository : BaseMsSqlRepository<RefreshToken> , ITokenReposit
     public void DeleteUserRefreshTokens(string username, string refreshToken)
     {
         var item = base.Entities.FirstOrDefault(x => x.Email == username && x.Refresh_Token == refreshToken);
-        if (item != null) base.Entities.Remove(item);
+        if (item != null) this.Delete(item);
     }
 }

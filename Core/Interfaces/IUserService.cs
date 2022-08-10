@@ -8,8 +8,8 @@ namespace Core.Interfaces;
 public interface IUserService
 {
     Task<ServiceResult> AddUserAsync(RegistrationDto user,CancellationToken cancellationToken);
-    Task<Token> LoginAsync(LoginDto user,CancellationToken cancellationToken);
+    Task<ServiceResult<Token>> LoginAsync(LoginDto user,CancellationToken cancellationToken);
     
-    Task<Token> RefreshTokenAsync(Token token,CancellationToken cancellationToken);
+    Task<ServiceResult<Token>> RefreshTokenAsync(Token token,CancellationToken cancellationToken);
     
 }

@@ -41,7 +41,7 @@ public class UserService : IUserService
         }
     }
 
-    public async Task<Token> LoginAsync(LoginDto user, CancellationToken cancellationToken)
+    public async Task<ServiceResult<Token>> LoginAsync(LoginDto user, CancellationToken cancellationToken)
     {
         try
         {
@@ -50,8 +50,8 @@ public class UserService : IUserService
                 
             if (result.Succeeded)
             {
-                Token token = tokenService.CreateJwtSecurityTokenInstance(result.Data.User);
-                tokenDb.AddRefreshToken(new RefreshToken(token.Refresh_Token, user.Email));
+                ServiceResult<Token> token = tokenService.CreateJwtSecurityTokenInstance(result.Data.User);
+                tokenDb.AddRefreshToken(new RefreshToken(token.Data.Refresh_Token, user.Email));
                 logger.LogInformation($"[Login] success login for user: {user.Email} {DateTime.Now}");
                 return token;
             }
@@ -65,10 +65,10 @@ public class UserService : IUserService
         return null;
     }
 
-    public async Task<Token> RefreshTokenAsync(Token token, CancellationToken cancellationToken)
+    public async Task<ServiceResult<Token>> RefreshTokenAsync(Token token, CancellationToken cancellationToken)
     {
         var principal = tokenService.GetPrincipalFromExpiredToken(token.Access_Token);
-        var email = principal.Identity?.Name;
+        var email = principal.Data.Claims.FirstOrDefault().Value;
         var savedRefreshToken = tokenDb.GetRefreshToken(email, token.Refresh_Token);
         
         if (savedRefreshToken.Refresh_Token != token.Refresh_Token)
@@ -83,7 +83,8 @@ public class UserService : IUserService
             return null;
         }
         tokenDb.DeleteUserRefreshTokens(email,token.Refresh_Token);
-        tokenDb.AddRefreshToken(new RefreshToken(token.Refresh_Token, email));
+        tokenDb.AddRefreshToken(new RefreshToken(result.Data.Refresh_Token, email));
+        logger.LogInformation($"[Token Refresh] success toking refreshing for user: {email} {DateTime.Now}");
         return result;
     }
 }
