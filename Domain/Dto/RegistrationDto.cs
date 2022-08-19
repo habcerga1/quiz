@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Dto;
 
+/// <summary>
+/// Registration Dto entity
+/// </summary>
 public class RegistrationDto
 {
     public string Email { get; set; }

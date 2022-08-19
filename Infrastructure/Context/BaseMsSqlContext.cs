@@ -1,5 +1,6 @@
 using Domain.Models.Base;
 using Domain.Token;
+using Infrastructure.Seed;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,6 @@ public class BaseMsSqlContext : IdentityDbContext<User,IdentityRole,string>
     public BaseMsSqlContext(DbContextOptions<BaseMsSqlContext> options)
         : base(options)
     {
-       
     }
 
 }

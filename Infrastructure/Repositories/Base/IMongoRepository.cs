@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Domain.Interfaces.Base;
 
 namespace Infrastructure.Repositories.Base;
 

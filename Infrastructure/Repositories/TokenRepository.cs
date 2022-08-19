@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Repositories;
 
+/// <summary>
+/// Token repository
+/// </summary>
 public class TokenRepository : BaseMsSqlRepository<RefreshToken> , ITokenRepository
 {
     private readonly UserManager<User> _userManager;

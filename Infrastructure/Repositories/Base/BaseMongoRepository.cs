@@ -1,10 +1,15 @@
 using System.Linq.Expressions;
+using Domain.Interfaces.Base;
 using Infrastructure.Repositories.Settings;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Infrastructure.Repositories.Base;
 
+/// <summary>
+/// Base Mongo repository
+/// </summary>
+/// <typeparam name="TDocument"></typeparam>
 public class BaseMongoRepository<TDocument> : IMongoRepository<TDocument>
     where TDocument : IDocument
 {

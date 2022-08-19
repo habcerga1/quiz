@@ -1,8 +1,11 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Infrastructure.Repositories.Base;
+namespace Domain.Interfaces.Base;
 
+/// <summary>
+/// Base Mongo entity interface
+/// </summary>
 public interface IDocument
 {
     [BsonId]

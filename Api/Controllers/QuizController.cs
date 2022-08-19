@@ -11,12 +11,10 @@ namespace Api.Controllers;
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
-public class LoginController : ControllerBase
+public class QuizController : ControllerBase
 {
-    private readonly IUserService service;
-    public LoginController(IUserService _service)
+    public QuizController()
     {
-        service = _service;
     }
     
     /// <summary>w3w
@@ -30,7 +28,7 @@ public class LoginController : ControllerBase
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
     public async Task<IActionResult> Post(LoginDto user,CancellationToken cancellationToken)
     {
-        return Ok(await service.LoginAsync(user,cancellationToken));
+        return Ok();
     }
     
     [HttpPost]
@@ -39,6 +37,6 @@ public class LoginController : ControllerBase
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
     public async Task<IActionResult> Refresh(Token token,CancellationToken cancellationToken)
     {
-        return Ok(await service.RefreshTokenAsync(token, cancellationToken));
+        return Ok();
     }
 }

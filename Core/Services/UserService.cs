@@ -12,17 +12,17 @@ namespace Core.Services;
 
 public class UserService : IUserService
 {
-    private readonly IUserRepository db;
-    private readonly ITokenRepository tokenDb;
-    private readonly ILogger<UserService> logger;
-    private readonly ITokenService tokenService;
+    private readonly IUserRepository _userDb;
+    private readonly ITokenRepository _tokenDb;
+    private readonly ILogger<UserService> _logger;
+    private readonly ITokenService _tokenService;
     
-    public UserService(IUserRepository _db,ILogger<UserService> _logger,ITokenService _tokenService,ITokenRepository _tokenDb)
+    public UserService(IUserRepository db,ILogger<UserService> logger,ITokenService tokenService,ITokenRepository tokenDb)
     {
-        db = _db;
-        logger = _logger;
-        tokenService = _tokenService;
-        tokenDb = _tokenDb;
+        _userDb = db;
+        _logger = logger;
+        _tokenService = tokenService;
+        _tokenDb = tokenDb;
     }
 
     public async Task<ServiceResult> AddUserAsync(RegistrationDto user, CancellationToken cancellationToken)
@@ -30,13 +30,13 @@ public class UserService : IUserService
         try
         {
             var item = user.Adapt<User>();
-            var result = await db.AddUserAsync(item, user.Password, cancellationToken);
-            logger.LogInformation(result.Message.Text);
+            var result = await _userDb.AddUserAsync(item, user.Password, cancellationToken);
+            _logger.LogInformation(result.Message.Text);
             return result;
         }
         catch (Exception ex)
         {
-            logger.LogDebug(ex.Message);
+            _logger.LogDebug(ex.Message);
             throw ex;
         }
     }
@@ -45,20 +45,20 @@ public class UserService : IUserService
     {
         try
         {
-            var result = await db.CheckUserPassword(user, user.Password, cancellationToken);
-            logger.LogInformation(result.Message.Text);
+            var result = await _userDb.CheckUserPassword(user, user.Password, cancellationToken);
+            _logger.LogInformation(result.Message.Text);
                 
             if (result.Succeeded)
             {
-                ServiceResult<Token> token = tokenService.CreateJwtSecurityTokenInstance(result.Data.User);
-                tokenDb.AddRefreshToken(new RefreshToken(token.Data.Refresh_Token, user.Email));
-                logger.LogInformation($"[Login] success login for user: {user.Email} {DateTime.Now}");
+                ServiceResult<Token> token = _tokenService.CreateJwtSecurityTokenInstance(result.Data.User);
+                _tokenDb.AddRefreshToken(new RefreshToken(token.Data.Refresh_Token, user.Email));
+                _logger.LogInformation($"[Login] success login for user: {user.Email} {DateTime.Now}");
                 return token;
             }
         }
         catch (Exception e)
         {
-            logger.LogInformation(e.Message);
+            _logger.LogInformation(e.Message);
             throw;
         }
 
@@ -67,24 +67,24 @@ public class UserService : IUserService
 
     public async Task<ServiceResult<Token>> RefreshTokenAsync(Token token, CancellationToken cancellationToken)
     {
-        var principal = tokenService.GetPrincipalFromExpiredToken(token.Access_Token);
+        var principal = _tokenService.GetPrincipalFromExpiredToken(token.Access_Token);
         var email = principal.Data.Claims.FirstOrDefault().Value;
-        var savedRefreshToken = tokenDb.GetRefreshToken(email, token.Refresh_Token);
+        var savedRefreshToken = _tokenDb.GetRefreshToken(email, token.Refresh_Token);
         
         if (savedRefreshToken.Refresh_Token != token.Refresh_Token)
         {
             return null;
         }
         
-        var result = tokenService.GenerateRefreshToken(await db.GetUserAsync(email,cancellationToken));
+        var result = _tokenService.GenerateRefreshToken(await _userDb.GetUserAsync(email,cancellationToken));
 
         if (result == null)
         {
             return null;
         }
-        tokenDb.DeleteUserRefreshTokens(email,token.Refresh_Token);
-        tokenDb.AddRefreshToken(new RefreshToken(result.Data.Refresh_Token, email));
-        logger.LogInformation($"[Token Refresh] success toking refreshing for user: {email} {DateTime.Now}");
+        _tokenDb.DeleteUserRefreshTokens(email,token.Refresh_Token);
+        _tokenDb.AddRefreshToken(new RefreshToken(result.Data.Refresh_Token, email));
+        _logger.LogInformation($"[Token Refresh] success toking refreshing for user: {email} {DateTime.Now}");
         return result;
     }
 }

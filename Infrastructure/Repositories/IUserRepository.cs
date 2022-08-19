@@ -5,6 +5,9 @@ using Infrastructure.Repositories.Base;
 
 namespace Infrastructure.Repositories;
 
+/// <summary>
+/// Base interface for User repository
+/// </summary>
 public interface IUserRepository: IRepository<User>
 {
     Task<ServiceResult> AddUserAsync(User user,string password,CancellationToken cancellationToken);

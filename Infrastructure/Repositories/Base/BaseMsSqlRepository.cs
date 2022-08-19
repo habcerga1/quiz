@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories.Base;
 
+/// <summary>
+/// Base Ms Sql repository
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
 public class BaseMsSqlRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
 {
     public DbSet<TEntity> Entities { get; }

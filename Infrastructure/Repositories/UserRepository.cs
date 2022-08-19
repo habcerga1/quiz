@@ -7,13 +7,17 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Repositories;
 
+/// <summary>
+/// User repository
+/// </summary>
 public class UserRepository : BaseMsSqlRepository<User>,IUserRepository
 {
     private readonly UserManager<User> _userManager;
-    
-    public UserRepository(BaseMsSqlContext dbContext,UserManager<User> userManager) : base(dbContext)
+    private readonly RoleManager<IdentityRole> _roleManager;
+    public UserRepository(BaseMsSqlContext dbContext,UserManager<User> userManager,RoleManager<IdentityRole> roleManager) : base(dbContext)
     {
         _userManager = userManager;
+        _roleManager = roleManager;
     }
 
     public async Task<ServiceResult> AddUserAsync(User user, string password,CancellationToken cancellationToken)
@@ -25,6 +29,18 @@ public class UserRepository : BaseMsSqlRepository<User>,IUserRepository
             return ServiceResult.Success(Result.CustomMessage($"[Registration][Ok] User: {user.Email} successfully registered Guid: {user.Guid} Time: {DateTime.Now}"));
         }
         return ServiceResult.Failed(Result.CustomMessage($"[Registration][Bad] {item.Errors.First().Description} Time: {DateTime.Now}"));
+    }
+    
+    public async Task<ServiceResult> AddRoleAsync(User user, Roles role,CancellationToken cancellationToken)
+    {
+        /*var item = await _roleManager.
+        if (item.Succeeded)
+        {
+            var result = await _userManager.FindByEmailAsync(user.Email);
+            return ServiceResult.Success(Result.CustomMessage($"[Registration][Ok] User: {user.Email} successfully registered Guid: {user.Guid} Time: {DateTime.Now}"));
+        }
+        return ServiceResult.Failed(Result.CustomMessage($"[Registration][Bad] {item.Errors.First().Description} Time: {DateTime.Now}"));*/
+        return null;
     }
 
     public async Task<ServiceResult<LoginResponse>> CheckUserPassword(LoginDto model, string password, CancellationToken cancellationToken)

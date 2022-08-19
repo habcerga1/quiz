@@ -1,7 +1,9 @@
 namespace Domain.Common;
 
 
-
+/// <summary>
+/// Entity for result and response from services
+/// </summary>
 public class ServiceResult
 {
     public bool Succeeded { get; }

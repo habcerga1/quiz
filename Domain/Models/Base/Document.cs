@@ -1,7 +1,11 @@
+using Domain.Interfaces.Base;
 using MongoDB.Bson;
 
-namespace Infrastructure.Repositories.Base;
+namespace Domain.Models.Base;
 
+/// <summary>
+/// Base Mongo entity
+/// </summary>
 public abstract class Document : IDocument
 {
     public ObjectId Id { get; set; }

@@ -17,10 +17,10 @@ namespace Api.Controllers;
 [ApiVersion("1.0")]
 public class RegistrationController : ControllerBase
 {
-    private readonly IUserService service;
-    public RegistrationController(IUserService _service)
+    private readonly IUserService _service;
+    public RegistrationController(IUserService service)
     {
-        service = _service;
+        _service = service;
     }
     
     [HttpPost]
@@ -28,6 +28,6 @@ public class RegistrationController : ControllerBase
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
     public async Task<IActionResult> Post(RegistrationDto user,CancellationToken cancellationToken)
     {
-        return Ok(await service.AddUserAsync(user,cancellationToken));
+        return Ok(await _service.AddUserAsync(user,cancellationToken));
     }
 }

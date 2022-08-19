@@ -1,5 +1,8 @@
 namespace Domain.Token;
 
+/// <summary>
+/// Token entity for Access and Refresh token
+/// </summary>
 public class Token
 {
     public string Access_Token { get; set; }
