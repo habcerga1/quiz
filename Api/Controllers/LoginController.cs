@@ -30,7 +30,8 @@ public class LoginController : ControllerBase
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
     public async Task<IActionResult> Post(LoginDto user,CancellationToken cancellationToken)
     {
-        return Ok(await service.LoginAsync(user,cancellationToken));
+        var response = await service.LoginAsync(user, cancellationToken);
+        return Ok(response);
     }
     
     [HttpPost]

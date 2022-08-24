@@ -41,4 +41,21 @@ public class ServerController : ControllerBase
     {
         return await Task.Run(()=> Ok(DateTime.Now));
     }
+    
+    /// <summary>
+    /// Check server status
+    /// </summary>
+    /// <remarks>
+    /// Simple request: GET http://localhost:5038/api/v1/server
+    /// </remarks>
+    /// <returns>Return date time</returns>
+    
+    [AuthorizeAttributeService(RoleEnum = Roles.User | Roles.Subscriber | Roles.Admin)]
+    [HttpGet()]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(DateTime), Description = "Valid request")]
+    [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad request Found")]
+    public async Task<IActionResult> CheckAuthorizeAttribute()
+    {
+        return await Task.Run(()=> Ok(DateTime.Now));
+    }
 }
