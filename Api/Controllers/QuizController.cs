@@ -13,8 +13,11 @@ namespace Api.Controllers;
 [ApiVersion("1.0")]
 public class QuizController : ControllerBase
 {
-    public QuizController()
+    private readonly IQuizService _service;
+    
+    public QuizController(IQuizService service)
     {
+        _service = service;
     }
     
     /// <summary>w3w
@@ -26,9 +29,10 @@ public class QuizController : ControllerBase
     [HttpPost]
     [SwaggerResponse(HttpStatusCode.OK, typeof(string), Description = "Valid request")]
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
-    public async Task<IActionResult> Post(LoginDto user,CancellationToken cancellationToken)
+    public async Task<IActionResult> Post(QuizDto item,CancellationToken cancellationToken)
     {
-        return Ok();
+        var result = _service.AddItem(item, cancellationToken);
+        return Ok(result);
     }
     
     [HttpPost]

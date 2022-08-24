@@ -1,11 +1,12 @@
 using Domain.Common;
+using Domain.Dto;
+using Domain.Interfaces;
 
 namespace Core.Interfaces;
 
 public interface IQuizService
-{
-    Task<ServiceResult> AddItem(CancellationToken cancellationToken);
-    Task<ServiceResult> GetItem(CancellationToken cancellationToken);
-    Task<ServiceResult> GetItems(CancellationToken cancellationToken);
-    Task<ServiceResult> Solve(CancellationToken cancellationToken);
+{ 
+      Task<ServiceResult> AddItem(QuizDto itemDto, CancellationToken cancellationToken);
+      Task<ServiceResult> GetItem(string id, CancellationToken cancellationToken);
+      public IQuiz Shuffle(IQuiz item);
 }
