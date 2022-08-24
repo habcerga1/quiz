@@ -15,6 +15,11 @@ public class ServiceResult
         Succeeded = succeeded;
         Message = message;
     }
+    
+    public ServiceResult()
+    {
+        
+    }
 
     #region Helper Methods
 
@@ -60,4 +65,8 @@ public class ServiceResult<T> : ServiceResult
         Data = data;
     }
     
+    public ServiceResult() : base()
+    {
+    }
+
 }

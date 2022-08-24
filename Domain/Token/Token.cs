@@ -13,4 +13,9 @@ public class Token
         Access_Token = accessToken;
         Refresh_Token = refreshToken;
     }
+
+    public Token()
+    {
+        
+    }
 }

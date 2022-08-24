@@ -1,7 +1,9 @@
 using System.Text;
 using ControllerTest.Host;
 using ControllerTest.Services;
+using Domain.Common;
 using Domain.Dto;
+using Domain.Token;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 
@@ -26,10 +28,11 @@ public class LoginControllerTest : IDisposable
     }
 
     [Fact]
-    public async Task Post()
+    public async Task<ServiceResult<Token>> Post()
     {
         var response = await _client.PostAsync("/api/v1.0/Login",ContentService.CreateStringContent(_loginDto));
         Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+        return  await response.Content.ReadAsAsync<ServiceResult<Token>>();
     }
 
     public void Dispose()

@@ -11,4 +11,10 @@ public class ContentService
         var json = JsonConvert.SerializeObject(item);
         return new StringContent(json, UnicodeEncoding.UTF8, type);
     }
+    
+    public static StringContent CreateStringContent(RegistrationDto item, string type = "application/json")
+    {
+        var json = JsonConvert.SerializeObject(item);
+        return new StringContent(json, UnicodeEncoding.UTF8, type);
+    }
 }
