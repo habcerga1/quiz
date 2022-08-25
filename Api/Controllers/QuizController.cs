@@ -2,6 +2,7 @@ using System.Net;
 using Core.Interfaces;
 using Domain.Dto;
 using Domain.Token;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
@@ -26,6 +27,7 @@ public class QuizController : ControllerBase
     /// <param name="user"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize]
     [HttpPost]
     [SwaggerResponse(HttpStatusCode.OK, typeof(string), Description = "Valid request")]
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]

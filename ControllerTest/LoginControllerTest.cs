@@ -26,7 +26,11 @@ public class LoginControllerTest : IDisposable
             Password = "7am8a5up3R!"
         };
     }
-
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns>ServiceResult<Token> Token and Refresh Token</returns>
     [Fact]
     public async Task<ServiceResult<Token>> Post()
     {
