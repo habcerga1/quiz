@@ -5,5 +5,5 @@ public enum Roles
 {
     User = 1,
     Subscriber = 1 << 1,
-    Admin = 1 << 2
+    Administrator = 1 << 2
 }
