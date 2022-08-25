@@ -8,7 +8,6 @@ namespace Domain.Models.Base;
 /// </summary>
 public class User : IdentityUser,IEntity
 {
-    public int Id { get; set; }
     public Guid Guid { get; set; }
     public string FullName { get; set; }
 }

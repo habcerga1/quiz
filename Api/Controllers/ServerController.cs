@@ -33,7 +33,7 @@ public class ServerController : ControllerBase
     /// </remarks>
     /// <returns>Return date time</returns>
     
-    [AuthorizeAttributeService(RoleEnum = Roles.User | Roles.Subscriber | Roles.Admin)]
+    [AuthorizeAttributeService(RoleEnum = Roles.User | Roles.Subscriber | Roles.Administrator)]
     [HttpGet()]
     [SwaggerResponse(HttpStatusCode.OK, typeof(DateTime), Description = "Valid request")]
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad request Found")]
@@ -50,7 +50,7 @@ public class ServerController : ControllerBase
     /// </remarks>
     /// <returns>Return date time</returns>
     
-    [AuthorizeAttributeService(RoleEnum = Roles.User | Roles.Subscriber | Roles.Admin)]
+    [AuthorizeAttributeService(RoleEnum = Roles.User | Roles.Subscriber | Roles.Administrator)]
     [HttpGet()]
     [SwaggerResponse(HttpStatusCode.OK, typeof(DateTime), Description = "Valid request")]
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad request Found")]

@@ -10,6 +10,5 @@ public interface IEntity
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key]
-    public int Id { get; set;}
     public Guid Guid { get; set;}
 }

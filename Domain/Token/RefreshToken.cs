@@ -5,9 +5,8 @@ namespace Domain.Token;
 
 public class RefreshToken : IEntity
 {
-
-    public int Id { get; set; }
     public Guid Guid { get; set; }
+    public int Id { get; set; }
     public string Email { get; set; }
     public string Refresh_Token { get; set; }
     public bool IsActive { get; set; } = true;

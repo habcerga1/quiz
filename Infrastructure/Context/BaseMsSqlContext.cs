@@ -34,33 +34,42 @@ public class BaseMsSqlContext : IdentityDbContext<User,IdentityRole,string>
         var hasher = new PasswordHasher<IdentityUser>();
 
         //Seeding the 'User' User to AspNetUsers table
-        modelBuilder.Entity<IdentityUser>().HasData(
-            new IdentityUser
+        modelBuilder.Entity<User>().HasData(
+            new User
             {
                 Id = "86a0a442-ddae-4b5c-9593-d44483fa7c4a", // primary key
                 UserName = "user@mail.coom",
                 NormalizedUserName = "USER@MAIL.COM",
-                PasswordHash = hasher.HashPassword(null, "7am8a5up3R!")
+                PasswordHash = hasher.HashPassword(null, "7am8a5up3R!"),
+                FullName = "User user",
+                Email = "user@mail.com",
+                NormalizedEmail = "USER@MAIL.COM"
             }
         );
         //Seeding the 'Subscriber' User to AspNetUsers table
-        modelBuilder.Entity<IdentityUser>().HasData(
-            new IdentityUser
+        modelBuilder.Entity<User>().HasData(
+            new User
             {
                 Id = "948e1d09-8785-4779-b649-daa3ec5c157f", // primary key
                 UserName = "subscriber@mail.coom",
                 NormalizedUserName = "SUBSCRIBER@MAIL.COM",
-                PasswordHash = hasher.HashPassword(null, "7am8a5up3R!")
+                PasswordHash = hasher.HashPassword(null, "7am8a5up3R!"),
+                FullName = "Subscriber Subscriber",
+                Email = "subscriber@mail.com",
+                NormalizedEmail = "SUBSCRIBER@MAIL.COM"
             }
         );
         //Seeding the 'Administrator' User to AspNetUsers table
-        modelBuilder.Entity<IdentityUser>().HasData(
-            new IdentityUser
+        modelBuilder.Entity<User>().HasData(
+            new User
             {
                 Id = "e6aa01ab-f765-4270-87dc-774c5a2ce447", // primary key
                 UserName = "administrator@mail.coom",
                 NormalizedUserName = "ADMINISTRATOR@MAIL.COM",
-                PasswordHash = hasher.HashPassword(null, "7am8a5up3R!")
+                PasswordHash = hasher.HashPassword(null, "7am8a5up3R!"),
+                FullName = "Administrator Administrator",
+                Email = "Administrator@mail.com",
+                NormalizedEmail = "ADMINISTRATOR@MAIL.COM"
             }
         );
         
