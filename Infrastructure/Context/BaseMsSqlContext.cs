@@ -31,19 +31,20 @@ public class BaseMsSqlContext : IdentityDbContext<User,IdentityRole,string>
             .HasData(new IdentityRole {Id = "498c3025-a4f4-4d5c-88b2-7370ac7f9e43", Name = "Administrator", NormalizedName = "ADMINISTRATOR".ToUpper() });
 
         //a hasher to hash the password before seeding the user to the db
-        var hasher = new PasswordHasher<IdentityUser>();
+        var hasher = new PasswordHasher<User>();
 
         //Seeding the 'User' User to AspNetUsers table
         modelBuilder.Entity<User>().HasData(
             new User
             {
                 Id = "86a0a442-ddae-4b5c-9593-d44483fa7c4a", // primary key
-                UserName = "user@mail.coom",
+                UserName = "user@mail.com",
                 NormalizedUserName = "USER@MAIL.COM",
                 PasswordHash = hasher.HashPassword(null, "7am8a5up3R!"),
                 FullName = "User user",
                 Email = "user@mail.com",
-                NormalizedEmail = "USER@MAIL.COM"
+                NormalizedEmail = "USER@MAIL.COM",
+                Guid = Guid.NewGuid()
             }
         );
         //Seeding the 'Subscriber' User to AspNetUsers table
@@ -51,12 +52,13 @@ public class BaseMsSqlContext : IdentityDbContext<User,IdentityRole,string>
             new User
             {
                 Id = "948e1d09-8785-4779-b649-daa3ec5c157f", // primary key
-                UserName = "subscriber@mail.coom",
+                UserName = "subscriber@mail.com",
                 NormalizedUserName = "SUBSCRIBER@MAIL.COM",
                 PasswordHash = hasher.HashPassword(null, "7am8a5up3R!"),
                 FullName = "Subscriber Subscriber",
                 Email = "subscriber@mail.com",
-                NormalizedEmail = "SUBSCRIBER@MAIL.COM"
+                NormalizedEmail = "SUBSCRIBER@MAIL.COM",
+                Guid = Guid.NewGuid()
             }
         );
         //Seeding the 'Administrator' User to AspNetUsers table
@@ -64,17 +66,16 @@ public class BaseMsSqlContext : IdentityDbContext<User,IdentityRole,string>
             new User
             {
                 Id = "e6aa01ab-f765-4270-87dc-774c5a2ce447", // primary key
-                UserName = "administrator@mail.coom",
+                UserName = "administrator@mail.com",
                 NormalizedUserName = "ADMINISTRATOR@MAIL.COM",
                 PasswordHash = hasher.HashPassword(null, "7am8a5up3R!"),
                 FullName = "Administrator Administrator",
                 Email = "Administrator@mail.com",
-                NormalizedEmail = "ADMINISTRATOR@MAIL.COM"
+                NormalizedEmail = "ADMINISTRATOR@MAIL.COM",
+                Guid = Guid.NewGuid()
             }
         );
         
-        
-
         //Seeding the relation between our Administrator user and  Administrator role to AspNetUserRoles table
         modelBuilder.Entity<IdentityUserRole<string>>().HasData(
             new IdentityUserRole<string>

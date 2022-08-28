@@ -1,5 +1,6 @@
 using System.Net;
 using Core.Interfaces;
+using Domain.Common;
 using Domain.Dto;
 using Domain.Token;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +28,7 @@ public class QuizController : ControllerBase
     /// <param name="user"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [Authorize]
+    [Authorize(Roles = Roles.AutorizedUsers)]
     [HttpPost]
     [SwaggerResponse(HttpStatusCode.OK, typeof(string), Description = "Valid request")]
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]

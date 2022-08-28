@@ -1,9 +1,11 @@
 namespace Domain.Common;
 
-[Flags]
-public enum Roles
+public static class Roles
 {
-    User = 1,
-    Subscriber = 1 << 1,
-    Administrator = 1 << 2
+    public const string User = "User";
+    public const string Subscriber = "Subscriber";
+    public const string Administrator = "Administrator";
+    
+    public const string AutorizedPostNewQuizzes = $"{Subscriber},{Administrator}";
+    public const string AutorizedUsers = $"{User},{Subscriber},{Administrator}";
 }

@@ -31,18 +31,6 @@ public class UserRepository : BaseMsSqlRepository<User>,IUserRepository
         return ServiceResult.Failed(Result.CustomMessage($"[Registration][Bad] {item.Errors.First().Description} Time: {DateTime.Now}"));
     }
     
-    public async Task<ServiceResult> AddRoleAsync(User user, Roles role,CancellationToken cancellationToken)
-    {
-        /*var item = await _roleManager.
-        if (item.Succeeded)
-        {
-            var result = await _userManager.FindByEmailAsync(user.Email);
-            return ServiceResult.Success(Result.CustomMessage($"[Registration][Ok] User: {user.Email} successfully registered Guid: {user.Guid} Time: {DateTime.Now}"));
-        }
-        return ServiceResult.Failed(Result.CustomMessage($"[Registration][Bad] {item.Errors.First().Description} Time: {DateTime.Now}"));*/
-        return null;
-    }
-
     public async Task<ServiceResult<LoginResponse>> CheckUserPassword(LoginDto model, string password, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByEmailAsync(model.Email);

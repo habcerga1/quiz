@@ -33,7 +33,6 @@ public class ServerController : ControllerBase
     /// </remarks>
     /// <returns>Return date time</returns>
     
-    [AuthorizeAttributeService(RoleEnum = Roles.User | Roles.Subscriber | Roles.Administrator)]
     [HttpGet()]
     [SwaggerResponse(HttpStatusCode.OK, typeof(DateTime), Description = "Valid request")]
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad request Found")]
@@ -50,12 +49,13 @@ public class ServerController : ControllerBase
     /// </remarks>
     /// <returns>Return date time</returns>
     
-    [AuthorizeAttributeService(RoleEnum = Roles.User | Roles.Subscriber | Roles.Administrator)]
+    [Authorize(Roles = Roles.AutorizedUsers)]
     [HttpGet()]
+    [Route("CheckAuthorizeAttribute")]
     [SwaggerResponse(HttpStatusCode.OK, typeof(DateTime), Description = "Valid request")]
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad request Found")]
     public async Task<IActionResult> CheckAuthorizeAttribute()
     {
-        return await Task.Run(()=> Ok(DateTime.Now));
+        return await Task.Run(()=> Ok($"{User.Identity.AuthenticationType}"));
     }
 }
