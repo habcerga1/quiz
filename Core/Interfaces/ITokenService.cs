@@ -7,8 +7,8 @@ namespace Core.Interfaces;
 
 public interface ITokenService
 {
-    ServiceResult<Token> CreateJwtSecurityTokenInstance(User user);
+    ServiceResult<Token> CreateJwtSecurityTokenInstance(User user,string role);
     ServiceResult<ClaimsPrincipal> GetPrincipalFromExpiredToken(string token);
     public string GenerateRefreshToken();
-    ServiceResult<Token> GenerateRefreshToken(User username);
+    ServiceResult<Token> GenerateRefreshToken(User username,string role);
 }

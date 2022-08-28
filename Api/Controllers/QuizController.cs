@@ -28,7 +28,7 @@ public class QuizController : ControllerBase
     /// <param name="user"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [Authorize(Roles = Roles.AutorizedUsers)]
+    [Authorize(Roles = "Administrator")]
     [HttpPost]
     [SwaggerResponse(HttpStatusCode.OK, typeof(string), Description = "Valid request")]
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]

@@ -22,7 +22,7 @@ public class LoginControllerTest : IDisposable
         _client = _application.CreateClient();
         _loginDto = new LoginDto()
         {
-            Email = "admin@admin.com",
+            Email = "administrator@mail.com",
             Password = "7am8a5up3R!"
         };
     }

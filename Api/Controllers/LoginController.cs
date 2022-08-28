@@ -19,7 +19,7 @@ public class LoginController : ControllerBase
         service = _service;
     }
     
-    /// <summary>w3w
+    /// <summary>
     /// Create
     /// </summary>
     /// <param name="user"></param>

@@ -15,4 +15,5 @@ public interface ITokenRepository : IRepository<RefreshToken>
 
     void DeleteUserRefreshTokens(string username, string refreshToken);
 
+    Task<bool> IsValidUserAsync(User user, string password);
 }

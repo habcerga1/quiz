@@ -34,4 +34,11 @@ public class TokenRepository : BaseMsSqlRepository<RefreshToken> , ITokenReposit
         var item = base.Entities.FirstOrDefault(x => x.Email == username && x.Refresh_Token == refreshToken);
         if (item != null) this.Delete(item);
     }
+    
+    public async Task<bool> IsValidUserAsync(User user,string password)
+    {
+        var u = _userManager.Users.FirstOrDefault(o => o.Email == user.Email);
+        var result = await _userManager.CheckPasswordAsync(u, password);
+        return result;
+    }
 }

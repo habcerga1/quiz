@@ -50,7 +50,8 @@ public class UserService : IUserService
                 
             if (result.Succeeded)
             {
-                ServiceResult<Token> token = _tokenService.CreateJwtSecurityTokenInstance(result.Data.User);
+                var role = await _userDb.GetUserRole(result.Data.User.Email,cancellationToken);
+                ServiceResult<Token> token = _tokenService.CreateJwtSecurityTokenInstance(result.Data.User,role);
                 _tokenDb.AddRefreshToken(new RefreshToken(token.Data.Refresh_Token, user.Email));
                 _logger.LogInformation($"[Login] success login for user: {user.Email} {DateTime.Now}");
                 return token;
@@ -76,7 +77,7 @@ public class UserService : IUserService
             return null;
         }
         
-        var result = _tokenService.GenerateRefreshToken(await _userDb.GetUserAsync(email,cancellationToken));
+        var result = _tokenService.GenerateRefreshToken(await _userDb.GetUserAsync(email,cancellationToken),await _userDb.GetUserRole(email,cancellationToken));
 
         if (result == null)
         {

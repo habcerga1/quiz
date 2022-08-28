@@ -51,11 +51,29 @@ public class ServerController : ControllerBase
     
     [Authorize(Roles = Roles.AutorizedUsers)]
     [HttpGet()]
-    [Route("CheckAuthorizeAttribute")]
+    [Route("CheckAutorizedUsers")]
     [SwaggerResponse(HttpStatusCode.OK, typeof(DateTime), Description = "Valid request")]
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad request Found")]
-    public async Task<IActionResult> CheckAuthorizeAttribute()
+    public async Task<IActionResult> CheckAutorizedUsers()
     {
-        return await Task.Run(()=> Ok($"{User.Identity.AuthenticationType}"));
+        return await Task.Run(()=> Ok($"{User.Identity.AuthenticationType} CheckAutorizedUsers"));
+    }
+    
+    /// <summary>
+    /// Check server status
+    /// </summary>
+    /// <remarks>
+    /// Simple request: GET http://localhost:5038/api/v1/server
+    /// </remarks>
+    /// <returns>Return date time</returns>
+    
+    [Authorize(Roles = Roles.AutorizedPostNewQuizzes)]
+    [HttpGet()]
+    [Route("CheckAutorizedPostNewQuizzes")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(DateTime), Description = "Valid request")]
+    [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad request Found")]
+    public async Task<IActionResult> CheckAutorizedPostNewQuizzes()
+    {
+        return await Task.Run(()=> Ok($"{User.Identity.AuthenticationType} CheckAutorizedPostNewQuizzes"));
     }
 }

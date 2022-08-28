@@ -51,4 +51,10 @@ public class UserRepository : BaseMsSqlRepository<User>,IUserRepository
     {
         return await _userManager.FindByEmailAsync(email);
     }
+
+    public async Task<string> GetUserRole(string email, CancellationToken cancellationToken)
+    {
+        var result = await _userManager.GetRolesAsync(await _userManager.FindByEmailAsync(email));
+        return result.First();
+    }
 }

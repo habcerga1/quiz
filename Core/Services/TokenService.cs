@@ -41,11 +41,12 @@ public class TokenService : ITokenService
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
     
-    public ServiceResult<Token> CreateJwtSecurityTokenInstance(User user)
+    public ServiceResult<Token> CreateJwtSecurityTokenInstance(User user,string role)
     {
         var authClaims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Email),
+            new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
+            new Claim(ClaimsIdentity.DefaultRoleClaimType, role),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 
@@ -62,9 +63,9 @@ public class TokenService : ITokenService
             GenerateRefreshToken()),Result.TokenGenerated);
     }
     
-    public ServiceResult<Token>  GenerateRefreshToken(User user)
+    public ServiceResult<Token> GenerateRefreshToken(User user,string role)
     {
-        return CreateJwtSecurityTokenInstance(user);
+        return CreateJwtSecurityTokenInstance(user,role);
     }
     
     public string GenerateRefreshToken( )
