@@ -1,5 +1,6 @@
 using System.Text;
 using Domain.Dto;
+using Domain.Token;
 using Newtonsoft.Json;
 
 namespace ControllerTest.Services;
@@ -23,4 +24,12 @@ public class ContentService
         var json = JsonConvert.SerializeObject(item);
         return new StringContent(json, UnicodeEncoding.UTF8, type);
     }
+    
+    public static StringContent CreateStringContent(Token item, string type = "application/json")
+    {
+        var json = JsonConvert.SerializeObject(item);
+        return new StringContent(json, UnicodeEncoding.UTF8, type);
+    }
+    
+    
 }

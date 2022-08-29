@@ -15,6 +15,7 @@ public class LoginControllerTest : IDisposable
     private HttpClient _client;
 
     private LoginDto _loginDto;
+    private ServiceResult<Token> _token;
     
     public LoginControllerTest()
     {
@@ -28,13 +29,27 @@ public class LoginControllerTest : IDisposable
     }
     
     /// <summary>
-    /// 
+    /// Test login controller
     /// </summary>
     /// <returns>ServiceResult<Token> Token and Refresh Token</returns>
     [Fact]
-    public async Task<ServiceResult<Token>> Post()
+    public async Task<ServiceResult<Token>> Login()
     {
         var response = await _client.PostAsync("/api/v1.0/Login",ContentService.CreateStringContent(_loginDto));
+        _token = await response.Content.ReadAsAsync<ServiceResult<Token>>();
+        Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+        return  await response.Content.ReadAsAsync<ServiceResult<Token>>();
+    }
+    
+    /// <summary>
+    /// Test refresh token
+    /// </summary>
+    /// <returns>ServiceResult<Token> Token and Refresh Token</returns>
+    [Fact]
+    public async Task<ServiceResult<Token>> Refresh()
+    {
+        ServiceResult<Token> result = await this.Login();
+        var response = await _client.PostAsync("/api/v1.0/Login/refresh",ContentService.CreateStringContent(result.Data));
         Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
         return  await response.Content.ReadAsAsync<ServiceResult<Token>>();
     }

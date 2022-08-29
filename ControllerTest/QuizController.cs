@@ -31,7 +31,7 @@ public class QuizController : IDisposable
     [Fact]
     public async Task Post()
     {
-        var token = await _loginController.Post();
+        var token = await _loginController.Login();
         
         _client.DefaultRequestHeaders.Add("Accept", "application/json");
         _client.DefaultRequestHeaders.Authorization = 
