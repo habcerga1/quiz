@@ -37,7 +37,7 @@ public class UserService : IUserService
         catch (Exception ex)
         {
             _logger.LogDebug(ex.Message);
-            throw ex;
+            throw;
         }
     }
 
@@ -47,7 +47,6 @@ public class UserService : IUserService
         {
             var result = await _userDb.CheckUserPassword(user, user.Password, cancellationToken);
             _logger.LogInformation(result.Message.Text);
-                
             if (result.Succeeded)
             {
                 var role = await _userDb.GetUserRole(result.Data.User.Email,cancellationToken);
@@ -59,7 +58,7 @@ public class UserService : IUserService
         }
         catch (Exception e)
         {
-            _logger.LogInformation(e.Message);
+            _logger.LogError(e.Message);
             throw;
         }
 

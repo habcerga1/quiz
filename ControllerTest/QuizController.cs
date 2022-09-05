@@ -21,7 +21,6 @@ public class QuizController : IDisposable
         _application = new ApiServer();
         _client = _application.CreateClient();
         _loginController = new LoginControllerTest();
-
     }
     
     /// <summary>
@@ -29,7 +28,7 @@ public class QuizController : IDisposable
     /// </summary>
     /// <returns>ServiceResult<Token></returns>
     [Fact]
-    public async Task Post()
+    public async Task AddNewQuiz()
     {
         var token = await _loginController.Login();
         

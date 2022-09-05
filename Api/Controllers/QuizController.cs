@@ -22,27 +22,80 @@ public class QuizController : ControllerBase
         _service = service;
     }
     
-    /// <summary>w3w
-    /// Create
+    /// <summary>
+    /// Add new Quiz
     /// </summary>
     /// <param name="user"></param>
     /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    [Authorize(Roles = "Administrator")]
+    /// <returns>Link to the quiz</returns>
+    [Authorize(Roles = Roles.AutorizedPostNewQuizzes)]
     [HttpPost]
     [SwaggerResponse(HttpStatusCode.OK, typeof(string), Description = "Valid request")]
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
     public async Task<IActionResult> Post(QuizDto item,CancellationToken cancellationToken)
     {
-        var result = _service.AddItem(item, cancellationToken);
-        return Ok(result);
+        return Ok(await _service.AddItemAsync(item, cancellationToken));
     }
     
-    [HttpPost]
-    [Route("refresh")]
+    /// <summary>
+    /// Post quiz solution
+    /// </summary>
+    /// <param name="item">User quiz solution from Front-end</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Solution Link</returns>
+    [Authorize(Roles = Roles.AutorizedPostNewQuizzes)]
+    [HttpPost("PostSolution")]
     [SwaggerResponse(HttpStatusCode.OK, typeof(string), Description = "Valid request")]
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
-    public async Task<IActionResult> Refresh(Token token,CancellationToken cancellationToken)
+    public async Task<IActionResult> PostSolution(QuizDto item,CancellationToken cancellationToken)
+    {
+        return Ok(await _service.AddSolutionAsync(User,item, cancellationToken));
+    }
+    
+    /// <summary>
+    /// Get quiz by id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("GetItemById")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(string), Description = "Valid request")]
+    [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
+    public async Task<IActionResult> GetItemById(string id,CancellationToken cancellationToken)
+    {
+        return Ok(await _service.GetItemAsync(id,cancellationToken));
+    }
+    
+    /// <summary>
+    /// Get item by category
+    /// </summary>
+    /// <param name="theme"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("GetItemsByCategory")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(string), Description = "Valid request")]
+    [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
+    public async Task<IActionResult> GetItemsByCategory(string theme,CancellationToken cancellationToken)
+    {
+        return Ok();
+    }
+    
+    [HttpGet]
+    [Route("GetItemsByEmail")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(string), Description = "Valid request")]
+    [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
+    public async Task<IActionResult> GetItemsByEmail(string email,CancellationToken cancellationToken)
+    {
+        return Ok();
+    }
+    
+    [HttpGet]
+    [Route("GetItemsByUser")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(string), Description = "Valid request")]
+    [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
+    public async Task<IActionResult> GetItemsByUser(CancellationToken cancellationToken)
     {
         return Ok();
     }

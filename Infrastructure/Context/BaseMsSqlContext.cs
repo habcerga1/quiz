@@ -1,3 +1,4 @@
+using Domain.Common;
 using Domain.Models.Base;
 using Domain.Token;
 using Infrastructure.Seed;
@@ -10,6 +11,9 @@ namespace Infrastructure.Context;
 public class BaseMsSqlContext : IdentityDbContext<User,IdentityRole,string>
 {
     public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<ShortQuizDescription> ShortQuizDescriptions { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     public BaseMsSqlContext(DbContextOptions<BaseMsSqlContext> options)
         : base(options)
@@ -19,6 +23,12 @@ public class BaseMsSqlContext : IdentityDbContext<User,IdentityRole,string>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+       
+
+
+        #region USERS ROLES
+
         
         //Seeding a  'User' role to AspNetRoles table
         modelBuilder.Entity<IdentityRole>()
@@ -101,7 +111,7 @@ public class BaseMsSqlContext : IdentityDbContext<User,IdentityRole,string>
             }
         );
         
-
+        #endregion
     }
 
 }

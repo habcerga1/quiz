@@ -79,7 +79,9 @@ public class Result
 
         public static Result DateTimeFormatError => new Result("Date format is not true. Date format must be like yyyy-MM-dd (2019-07-19)", 500);
         
-        public static Result QuizSuccessRemove => new Result($"Quiz success Remove {DateTime.Now}", 102);
+        public static Result QuizUserSolution => new Result($"User solution result {DateTime.Now}", 105);
+        public static Result QuizSuccessGetById => new Result($"Quiz success Get by Id {DateTime.Now}", 104);
+        public static Result QuizSuccessRemove => new Result($"Quiz success Remove {DateTime.Now}", 103);
         public static Result QuizSuccessAdd => new Result($"Quiz success Add {DateTime.Now}", 102);
         public static Result TokenClaimsPrincipal => new Result($"Token claims successfully getted {DateTime.Now}", 101);
         public static Result TokenGenerated => new Result($"Token successfully generated {DateTime.Now}", 100);
