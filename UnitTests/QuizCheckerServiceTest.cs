@@ -40,10 +40,4 @@ public class QuizCheckerServiceTest
         var score = _quizCheckService.CheckSolvedQuiz(_data.GetQuizDto1(), shuffleQuiz);
         Assert.AreEqual(3,score);
     }
-    
-    [Test]
-    public void AddItem()
-    {
-        var result = _quizService.AddItemAsync(_data.GetQuizDto1(),new CancellationToken()).Result;
-    }
 }

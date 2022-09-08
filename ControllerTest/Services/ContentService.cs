@@ -31,5 +31,11 @@ public class ContentService
         return new StringContent(json, UnicodeEncoding.UTF8, type);
     }
     
+    public static StringContent CreateStringContent(string item, string type = "application/json")
+    {
+        var json = JsonConvert.SerializeObject(item);
+        return new StringContent(json, UnicodeEncoding.UTF8, type);
+    }
+    
     
 }

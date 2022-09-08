@@ -9,5 +9,6 @@ namespace Domain.Models.Base;
 public class User : IdentityUser,IEntity
 {
     public Guid Guid { get; set; }
+    public int Id { get; set; }
     public string FullName { get; set; }
 }

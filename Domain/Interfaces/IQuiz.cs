@@ -9,6 +9,7 @@ namespace Domain.Interfaces;
 public interface IQuiz : IDocument
 {
     string AuthorEmail { get; set; }
+    string Description { get; set; }
     string Title { get; set; }
     List<IQuestion> Questions { get; set; }
     bool IsPublic { get; set; }

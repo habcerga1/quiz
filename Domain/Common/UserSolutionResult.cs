@@ -5,6 +5,7 @@ namespace Domain.Common;
 public class UserSolutionResult : IEntity
 {
     public Guid Guid { get; set; }
+    public int Id { get; set; }
     public Guid UserGuid { get; set; }
     public string UserEmail { get; set; }
     public string QuizId { get; set; }

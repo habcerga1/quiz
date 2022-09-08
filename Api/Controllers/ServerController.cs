@@ -1,4 +1,5 @@
 using System.Net;
+using System.Security.Claims;
 using Core.Services;
 using Domain.Common;
 using Domain.Models.Base;
@@ -56,6 +57,7 @@ public class ServerController : ControllerBase
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad request Found")]
     public async Task<IActionResult> CheckAutorizedUsers()
     {
+        Console.WriteLine(User.FindFirstValue(ClaimTypes.Email));
         return await Task.Run(()=> Ok($"{User.Identity.AuthenticationType} CheckAutorizedUsers"));
     }
     

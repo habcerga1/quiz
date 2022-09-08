@@ -24,7 +24,7 @@ public class QuizController : IDisposable
     }
     
     /// <summary>
-    /// Testing authorization and adding new quiz
+    /// Testing when user authorization and post new quiz.
     /// </summary>
     /// <returns>ServiceResult<Token></returns>
     [Fact]
@@ -37,6 +37,25 @@ public class QuizController : IDisposable
             new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.Data.Access_Token);
         
         var response = await _client.PostAsync("/api/v1.0/Quiz",ContentService.CreateStringContent(new TestQuiz().GetQuizDto1())); 
+        Assert.NotNull(response);
+    }
+    
+    /// <summary>
+    /// Testing when user get quiz by id and then send solution.
+    /// </summary>
+    /// <returns>ServiceResult<Token></returns>
+    [Fact]
+    // TODO: Нужно протестировать
+    public async Task PostSolution()
+    {
+        var token = await _loginController.Login();
+        
+        _client.DefaultRequestHeaders.Add("Accept", "application/json");
+        _client.DefaultRequestHeaders.Authorization = 
+            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.Data.Access_Token);
+
+        var item = await _client.GetAsync("api/v1.0/Quiz/GetItemById?Id=62e2deedf131b457549f847e");
+        var response = await _client.PostAsync("/api/v1.0/Quiz/PostSolution",ContentService.CreateStringContent(new TestQuiz().GetQuizDto1())); 
         Assert.NotNull(response);
     }
 

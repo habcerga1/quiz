@@ -24,6 +24,9 @@ public class RegistrationController : IDisposable
         };
     }
 
+    /// <summary>
+    /// Testing new user registration
+    /// </summary>
     [Fact]
     public async Task Post()
     {

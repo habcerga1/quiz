@@ -14,6 +14,7 @@ public class QuizDto : IQuiz
     public  DateTime UpdatedAt { get; }
     
     public string AuthorEmail { get; set; }
+    public string Description { get; set; }
     public string Title { get; set; }
     public List<IQuestion> Questions { get; set; }
     public byte MinCorrectPercent { get; set; }
