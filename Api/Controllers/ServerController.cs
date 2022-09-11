@@ -2,7 +2,6 @@ using System.Net;
 using System.Security.Claims;
 using Core.Services;
 using Domain.Common;
-using Domain.Models.Base;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
 using Infrastructure.Repositories.Base;
@@ -10,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
+using Sentry;
+using User = Domain.Models.Base.User;
 
 namespace Api.Controllers;
 

@@ -4,6 +4,7 @@ using Domain.Dto;
 using Domain.Token;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
+using Sentry;
 
 namespace Api.Controllers;
 
@@ -30,7 +31,11 @@ public class LoginController : ControllerBase
     [SwaggerResponse(HttpStatusCode.BadRequest, null, Description = "Bad Request Found")]
     public async Task<IActionResult> Post(LoginDto user,CancellationToken cancellationToken)
     {
+        var transaction = SentrySdk.StartTransaction("user-login-transaction", "controller-login-post");
         var response = await service.LoginAsync(user, cancellationToken);
+        var span = transaction.StartChild("test-child-operation");
+        span.Finish();
+        transaction.Finish();
         return Ok(response);
     }
     

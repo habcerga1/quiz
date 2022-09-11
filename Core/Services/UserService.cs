@@ -54,6 +54,7 @@ public class UserService : IUserService
                 ServiceResult<Token> token = _tokenService.CreateJwtSecurityTokenInstance(result.Data.User,role);
                 _tokenDb.AddRefreshToken(new RefreshToken(token.Data.Refresh_Token, user.Email));
                 _logger.LogInformation($"[Login] Success login for user: {user.Email} {DateTime.Now}");
+                
                 return token;
             }
             else
