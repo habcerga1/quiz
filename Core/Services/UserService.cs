@@ -3,6 +3,7 @@ using Core.Interfaces;
 using Domain.Common;
 using Domain.Dto;
 using Domain.Models.Base;
+using Domain.Models.Excaptions;
 using Domain.Token;
 using Infrastructure.Repositories;
 using Mapster;
@@ -45,20 +46,24 @@ public class UserService : IUserService
     {
         try
         {
-            var result = await _userDb.CheckUserPassword(user, user.Password, cancellationToken);
-            _logger.LogInformation(result.Message.Text);
+            var result = await _userDb.CheckUserPasswordAsync(user, user.Password, cancellationToken);
             if (result.Succeeded)
             {
+                _logger.LogInformation(result.Message.Text);
                 var role = await _userDb.GetUserRole(result.Data.User.Email,cancellationToken);
                 ServiceResult<Token> token = _tokenService.CreateJwtSecurityTokenInstance(result.Data.User,role);
                 _tokenDb.AddRefreshToken(new RefreshToken(token.Data.Refresh_Token, user.Email));
-                _logger.LogInformation($"[Login] success login for user: {user.Email} {DateTime.Now}");
+                _logger.LogInformation($"[Login] Success login for user: {user.Email} {DateTime.Now}");
                 return token;
+            }
+            else
+            {
+                _logger.LogInformation(result.Message.Text);
             }
         }
         catch (Exception e)
         {
-            _logger.LogError(e.Message);
+            _logger.LogCritical(e.Message);
             throw;
         }
 
@@ -75,16 +80,36 @@ public class UserService : IUserService
         {
             return null;
         }
-        
-        var result = _tokenService.GenerateRefreshToken(await _userDb.GetUserAsync(email,cancellationToken),await _userDb.GetUserRole(email,cancellationToken));
+
+        ServiceResult<Token> result;
+        try
+        {
+            var user = await _userDb.GetUserAsync(email, cancellationToken);
+            var role = await _userDb.GetUserRole(email,cancellationToken);
+            result = _tokenService.GenerateRefreshToken(user.Data, role);
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e.Message);
+            throw;
+        }
 
         if (result == null)
         {
-            return null;
+            return ServiceResult.Failed(Result.DefaultError) as ServiceResult<Token>;
         }
-        _tokenDb.DeleteUserRefreshTokens(email,token.Refresh_Token);
-        _tokenDb.AddRefreshToken(new RefreshToken(result.Data.Refresh_Token, email));
-        _logger.LogInformation($"[Token Refresh] success toking refreshing for user: {email} {DateTime.Now}");
+
+        try
+        {
+            _tokenDb.DeleteUserRefreshTokens(email,token.Refresh_Token);
+            _tokenDb.AddRefreshToken(new RefreshToken(result.Data.Refresh_Token, email));
+            _logger.LogInformation($"[Token Refresh] success toking refreshing for user: {email} {DateTime.Now}");
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e.Message);
+            throw;
+        }
         return result;
     }
 }

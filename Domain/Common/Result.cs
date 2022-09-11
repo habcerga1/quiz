@@ -50,15 +50,17 @@ public class Result
             return new Result(errorMessage, 997);
         }
         
-        public static Result SuccessAuthorization => new Result($"User email and password is correct {DateTime.Now}", 996);
+        public static Result AuthorizationSuccess => new Result($"User email and password is correct {DateTime.Now}", 996);
 
         public static Result UserNotFound => new Result($"User with this id does not exist {DateTime.Now}", 996);
         
-        public static Result IncorrectPassword => new Result($"Incorrect password {DateTime.Now}", 996);
+        public static Result IncorrectLoginOrPassword => new Result($"Incorrect login or password {DateTime.Now}", 996);
 
         public static Result UserFailedToCreate => new Result("Failed to create User.", 995);
         
         public static Result UserAlreadyExist => new Result("User with this email already exist.", 995);
+        
+        public static Result UserFoundSuccess => new Result("User getted from database success", 995);
 
         public static Result Canceled => new Result("The request canceled successfully!", 994);
 

@@ -12,8 +12,9 @@ public interface IUserRepository: IRepository<User>
 {
     Task<ServiceResult> AddUserAsync(User user,string password,CancellationToken cancellationToken);
     
-    Task<ServiceResult<LoginResponse>> CheckUserPassword(LoginDto user,string password,CancellationToken cancellationToken);
+    Task<ServiceResult<LoginResponse>> CheckUserPasswordAsync(LoginDto user,string password,CancellationToken cancellationToken);
     Task<User> GetUserAsync(LoginDto user,CancellationToken cancellationToken);
-    Task<User> GetUserAsync(string email,CancellationToken cancellationToken);
+    
+    Task<ServiceResult<User>> GetUserAsync(string email,CancellationToken cancellationToken);
     Task<string> GetUserRole(string email,CancellationToken cancellationToken);
 }

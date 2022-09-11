@@ -1,6 +1,7 @@
 using Domain.Common;
 using Domain.Dto;
 using Domain.Models.Base;
+using Domain.Models.Excaptions;
 using Infrastructure.Context;
 using Infrastructure.Repositories.Base;
 using Microsoft.AspNetCore.Identity;
@@ -31,15 +32,15 @@ public class UserRepository : BaseMsSqlRepository<User>,IUserRepository
         return ServiceResult.Failed(Result.CustomMessage($"[Registration][Bad] {item.Errors.First().Description} Time: {DateTime.Now}"));
     }
     
-    public async Task<ServiceResult<LoginResponse>> CheckUserPassword(LoginDto model, string password, CancellationToken cancellationToken)
+    public async Task<ServiceResult<LoginResponse>> CheckUserPasswordAsync(LoginDto model, string password, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByEmailAsync(model.Email);
         if (user == null) ServiceResult.Failed(Result.UserNotFound);
         
         var item =  await _userManager.CheckPasswordAsync(user,password);
         return (ServiceResult<LoginResponse>)(item == false
-            ? ServiceResult.Failed<LoginResponse>(Result.IncorrectPassword)
-            : ServiceResult.Success<LoginResponse>(new LoginResponse(user),Result.SuccessAuthorization));
+            ? ServiceResult.Failed<LoginResponse>(Result.IncorrectLoginOrPassword)
+            : ServiceResult.Success<LoginResponse>(new LoginResponse(user),Result.AuthorizationSuccess));
     }
     
     public async Task<User> GetUserAsync(LoginDto user, CancellationToken cancellationToken)
@@ -47,9 +48,12 @@ public class UserRepository : BaseMsSqlRepository<User>,IUserRepository
         return await _userManager.FindByEmailAsync(user.Email);
     }
     
-    public async Task<User> GetUserAsync(string email, CancellationToken cancellationToken)
+    public async Task<ServiceResult<User>> GetUserAsync(string email, CancellationToken cancellationToken)
     {
-        return await _userManager.FindByEmailAsync(email);
+        var result = await _userManager.FindByEmailAsync(email);
+        if(result == null) ServiceResult.Failed(Result.UserNotFound);
+
+        return ServiceResult.Success<User>(result, Result.UserAlreadyExist) as ServiceResult<User>;
     }
 
     public async Task<string> GetUserRole(string email, CancellationToken cancellationToken)
